@@ -60,19 +60,28 @@ const [draft, setDraft] = useState("");
 return (
 <>
 <Head>
-<title>Papilio Lux — Life, Transformed</title>
+<title>Papilio Lux</title>
 <meta name="description" content="Your complete life transformation begins here." />
 {/* Professional SaaS fonts */}
 <link href="https://fonts.googleapis.com/css2?family=Montagu+Slab:wght@600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
-</Head>
-
-<div className="page">
-{/* Top bar with butterfly + brand text */}
-<header className="nav" role="banner">
-<div className="logo" aria-label="Papilio Lux">
-<svg width="28" height="28" viewBox="0 0 64 64" aria-hidden>
-<defs>
-<linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+  <header className="top">
+  <div className="brandRow">
+  <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden>
+  <defs>
+  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0%" stopColor="var(--brand-blue)" />
+  <stop offset="50%" stopColor="var(--brand-purple)" />
+  <stop offset="100%" stopColor="var(--brand-pink)" />
+  </linearGradient>
+  </defs>
+  <path
+  fill="url(#g)"
+  d="M22 30c-6-10-18-10-18-2 0 7 10 11 16 10-1 6-3 12 2 12 5 0 6-8 6-14 0-2 0-4-6-6zm20 0c6-10 18-10 18-2 0 7-10 11-16 10 1 6 3 12-2 12s-6-8-6-14c0-2 0-4 6-6z"
+  />
+  </svg>
+  <span className="wordmark">Papilio Lux</span>
+  </div>
+  </header>
 <stop offset="0%" stopColor="var(--brand-blue)" />
 <stop offset="50%" stopColor="var(--brand-purple)" />
 <stop offset="100%" stopColor="var(--brand-pink)" />
@@ -209,7 +218,39 @@ onChange={() => toggleTodo(active, t.id)}
 --ink-dim:#334155;
 --glass:rgba(255,255,255,.7);
 }
+.top {
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 20px;
+position: sticky;
+top: 0;
+z-index: 100;
+background: var(--glass);
+backdrop-filter: blur(8px);
+}
 
+.brandRow {
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.wordmark {
+font-family: "Montagu Slab", serif;
+font-weight: 700;
+font-size: 26px;
+letter-spacing: .06em;
+background: linear-gradient(
+135deg,
+var(--brand-blue),
+var(--brand-purple) 50%,
+var(--brand-pink)
+);
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+}
 /* Background with brand gradient + subtle butterflies */
 .page{
 min-height:100vh;
