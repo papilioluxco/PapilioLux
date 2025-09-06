@@ -1,32 +1,184 @@
-.container {
-  padding: 0 2rem;
+:root{
+--bg: #EEE2DF; /* Platinum */
+--text: #222222; /* Neutral text */
+--muted: #6B7280; /* Muted grey */
+
+--brand: #5B61B2; /* Liberty */
+--brand-2: #2F80E4; /* Bleu de France */
+--accent: #DEC1DB; /* Thistle */
+--support: #6DA0E1; /* Little Boy Blue */
+
+--card: #FFFFFF;
+--card-stroke: #E1E1E1;
 }
 
-.main {
-  min-height: 100vh;
-  padding: 4rem 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+/* PAGE BASE */
+.page{
+background: var(--bg);
+color: var(--text);
+font-family: 'Montserrat', sans-serif;
 }
 
-.footer {
-  display: flex;
-  flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
-  align-items: center;
+/* HERO */
+.hero{
+padding: 100px 24px 80px;
+text-align: center;
+background: linear-gradient(180deg, var(--accent) 0%, var(--bg) 100%);
+border-bottom: 1px solid var(--card-stroke);
+position: relative;
+}
+.title{
+margin: 16px 0 6px;
+font-size: clamp(28px, 5vw, 48px);
+font-weight: 700;
+letter-spacing: 0.06em;
+text-transform: uppercase;
+color: var(--brand);
+}
+.subtitle{
+color: var(--brand-2);
+font-size: clamp(14px, 2.6vw, 18px);
+margin: 0 auto 20px;
+}
+.ctaRow{
+display: flex;
+gap: 12px;
+justify-content: center;
+flex-wrap: wrap;
+}
+.cta{
+display: inline-block;
+padding: 12px 20px;
+border-radius: 12px;
+text-decoration: none;
+font-weight: 600;
+transition: all 0.2s ease;
+}
+.ctaPrimary{
+background: linear-gradient(135deg, var(--brand), var(--brand-2));
+color: #fff;
+box-shadow: 0 4px 10px rgba(91, 97, 178, 0.3);
+}
+.ctaPrimary:hover{ opacity: 0.9; }
+.ctaGhost{
+background: var(--card);
+color: var(--brand);
+border: 1px solid var(--brand-2);
+}
+.ctaGhost:hover{ background: var(--accent); }
+
+/* SECTION BASE */
+.section{ padding: 80px 24px; }
+.sectionAlt{
+background: linear-gradient(180deg, var(--bg), var(--accent));
+border-top: 1px solid var(--card-stroke);
+border-bottom: 1px solid var(--card-stroke);
+}
+.container{ max-width: 1040px; margin: 0 auto; }
+.h2{
+font-size: clamp(22px, 4.5vw, 34px);
+text-align: center;
+margin: 0 0 22px;
+color: var(--brand);
+}
+.h3, .h4{ color: var(--brand-2); }
+
+/* FEATURES */
+.featureGrid{
+display: grid;
+gap: 20px;
+margin-top: 24px;
+}
+@media (min-width: 700px){
+.featureGrid{ grid-template-columns: repeat(3, 1fr); }
+}
+.card{
+background: var(--card);
+border: 1px solid var(--card-stroke);
+border-radius: 14px;
+padding: 20px;
+box-shadow: 0 4px 8px rgba(109,160,225,0.15); /* Little Boy Blue shadow */
+}
+.card:hover{
+transform: translateY(-4px);
+box-shadow: 0 6px 14px rgba(109,160,225,0.25);
 }
 
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
+/* JOURNEY */
+.journey{
+list-style: none;
+display: grid;
+gap: 20px;
+margin: 16px 0 0;
+padding: 0;
 }
+@media (min-width: 700px){
+.journey{ grid-template-columns: repeat(3, 1fr); }
+}
+.journey li{
+background: #fff;
+border: 1px solid var(--card-stroke);
+border-radius: 14px;
+padding: 20px 20px 20px 60px;
+position: relative;
+min-height: 120px;
+box-shadow: 0 3px 6px rgba(91, 97, 178, 0.15);
+}
+.step{
+position: absolute;
+left: 16px; top: 16px;
+width: 32px; height: 32px;
+border-radius: 50%;
+background: linear-gradient(135deg, var(--brand), var(--brand-2));
+color: #fff;
+display: grid;
+place-items: center;
+font-weight: 700;
+}
+
+/* FORM */
+.form{
+display: grid;
+grid-template-columns: 1fr;
+gap: 12px;
+max-width: 520px;
+margin: 20px auto 0;
+}
+@media (min-width: 640px){
+.form{ grid-template-columns: 1fr auto; }
+}
+.input{
+border: 1px solid var(--card-stroke);
+border-radius: 12px;
+padding: 12px 14px;
+font-size: 16px;
+}
+.input:focus{ border-color: var(--brand-2); box-shadow: 0 0 0 3px rgba(47,128,228,0.2); }
+.submit{
+background: linear-gradient(135deg, var(--brand), var(--brand-2));
+color: #fff;
+border: none;
+border-radius: 12px;
+padding: 12px 18px;
+font-weight: 600;
+cursor: pointer;
+box-shadow: 0 4px 10px rgba(91, 97, 178, 0.3);
+}
+.submit:hover{ opacity: 0.9; }
+
+/* FOOTER */
+.footer{
+border-top: 1px solid var(--card-stroke);
+padding: 28px 24px;
+background: var(--brand);
+color: #fff;
+}
+.footerNav a{
+color: var(--accent);
+margin-left: 14px;
+text-decoration: none;
+}
+.footerNav a:hover{ color: var(--bg); }
 
 .title a {
   color: #0070f3;
