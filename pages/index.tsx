@@ -11,18 +11,14 @@ const SECTIONS = [
 
 export default function Home() {
   const [active, setActive] = useState(0);
-
-  // tasks per section
   const [tasks, setTasks] = useState<Record<number, Task[]>>(
     () => Object.fromEntries(Array.from({ length: 12 }, (_, i) => [i, []]))
   );
 
-  // persist in localStorage
+  // persist todos locally
   useEffect(() => {
     const raw = localStorage.getItem("plx_tasks_v1");
-    if (raw) {
-      try { setTasks(JSON.parse(raw)); } catch {}
-    }
+    if (raw) { try { setTasks(JSON.parse(raw)); } catch {} }
   }, []);
   useEffect(() => {
     localStorage.setItem("plx_tasks_v1", JSON.stringify(tasks));
@@ -30,16 +26,13 @@ export default function Home() {
 
   const addTask = (i: number, text: string) => {
     const t: Task = { id: crypto.randomUUID(), text, done: false };
-    setTasks((prev) => ({ ...prev, [i]: [t, ...(prev[i] || [])] }));
+    setTasks(prev => ({ ...prev, [i]: [t, ...(prev[i] || [])] }));
   };
   const toggleTask = (i: number, id: string) => {
-    setTasks((prev) => ({
-      ...prev,
-      [i]: prev[i].map((t) => (t.id === id ? { ...t, done: !t.done } : t)),
-    }));
+    setTasks(prev => ({ ...prev, [i]: prev[i].map(t => t.id === id ? { ...t, done: !t.done } : t) }));
   };
   const removeTask = (i: number, id: string) => {
-    setTasks((prev) => ({ ...prev, [i]: prev[i].filter((t) => t.id !== id) }));
+    setTasks(prev => ({ ...prev, [i]: prev[i].filter(t => t.id !== id) }));
   };
 
   // wheel slices
@@ -69,14 +62,11 @@ export default function Home() {
       <Head>
         <title>Papilio Lux — Life, Transformed</title>
         <meta name="description" content="Your complete life transformation begins here." />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Montagu+Slab:wght@600;700&family=Inter:wght@300;400;600;700&display=swap"
-          rel="stylesheet"
-        />
+        <link href="https://fonts.googleapis.com/css2?family=Montagu+Slab:wght@600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
       </Head>
 
       <div className="page">
-        {/* HEADER */}
+        {/* HEADER (inline style wordmark to guarantee visibility) */}
         <header className="top">
           <div className="brandRow">
             <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden>
@@ -87,12 +77,22 @@ export default function Home() {
                   <stop offset="100%" stopColor="var(--brand-pink)" />
                 </linearGradient>
               </defs>
-              <path
-                fill="url(#g)"
-                d="M22 30c-6-10-18-10-18-2 0 7 10 11 16 10-1 6-3 12 2 12 5 0 6-8 6-14 0-2 0-4-6-6zm20 0c6-10 18-10 18-2 0 7-10 11-16 10 1 6 3 12-2 12s-6-8-6-14c0-2 0-4 6-6z"
-              />
+              <path fill="url(#g)" d="M22 30c-6-10-18-10-18-2 0 7 10 11 16 10-1 6-3 12 2 12 5 0 6-8 6-14 0-2 0-4-6-6zm20 0c6-10 18-10 18-2 0 7-10 11-16 10 1 6 3 12-2 12s-6-8-6-14c0-2 0-4 6-6z"/>
             </svg>
-            <span className="wordmark">Papilio Lux</span>
+            <span
+              style={{
+                fontFamily: '"Montagu Slab", serif',
+                fontWeight: 700,
+                letterSpacing: ".06em",
+                fontSize: 26,
+                background: "linear-gradient(135deg, var(--brand-blue), var(--brand-purple) 50%, var(--brand-pink))",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent"
+              }}
+            >
+              Papilio Lux
+            </span>
           </div>
         </header>
 
@@ -103,10 +103,7 @@ export default function Home() {
             <ul className="sectionList">
               {SECTIONS.map((s, i) => (
                 <li key={s}>
-                  <button
-                    className={i === active ? "item active" : "item"}
-                    onClick={() => setActive(i)}
-                  >
+                  <button className={i === active ? "item active" : "item"} onClick={() => setActive(i)}>
                     <span className="dot" aria-hidden />
                     {s}
                   </button>
@@ -115,18 +112,10 @@ export default function Home() {
             </ul>
 
             <div className="todoPanel">
-              <div className="todoHeader">
-                <span>To-dos — <strong>{SECTIONS[active]}</strong></span>
-              </div>
+              <div className="todoHeader">To-dos — <strong>{SECTIONS[active]}</strong></div>
 
               <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const v = input.trim();
-                  if (!v) return;
-                  addTask(active, v);
-                  setInput("");
-                }}
+                onSubmit={(e) => { e.preventDefault(); const v = input.trim(); if (!v) return; addTask(active, v); setInput(""); }}
                 className="todoForm"
               >
                 <input
@@ -139,17 +128,11 @@ export default function Home() {
               </form>
 
               <ul className="todoList">
-                {tasks[active].length === 0 && (
-                  <li className="empty">No to-dos yet.</li>
-                )}
+                {tasks[active].length === 0 && <li className="empty">No to-dos yet.</li>}
                 {tasks[active].map((t) => (
                   <li key={t.id} className="todoItem">
                     <label className="checkboxRow">
-                      <input
-                        type="checkbox"
-                        checked={t.done}
-                        onChange={() => toggleTask(active, t.id)}
-                      />
+                      <input type="checkbox" checked={t.done} onChange={() => toggleTask(active, t.id)} />
                       <span className={t.done ? "txt done" : "txt"}>{t.text}</span>
                     </label>
                     <button className="delBtn" onClick={() => removeTask(active, t.id)} aria-label="Delete">×</button>
@@ -159,7 +142,7 @@ export default function Home() {
             </div>
           </aside>
 
-          {/* MAIN CONTENT */}
+          {/* MAIN */}
           <section className="content">
             <h1 className="h1">Papilio Lux</h1>
             <h2 className="h2">Life, Transformed.</h2>
@@ -175,7 +158,7 @@ export default function Home() {
                   </linearGradient>
                 </defs>
 
-                <circle cx="200" cy="200" r="182" fill="none" stroke="url(#slice)" strokeOpacity="0.35" strokeWidth="6"/>
+                <circle cx="200" cy="200" r="182" fill="none" stroke="url(#slice)" strokeOpacity="0.35" strokeWidth="6" />
 
                 {slices.map((s, i) => (
                   <path
@@ -191,12 +174,8 @@ export default function Home() {
                 ))}
 
                 <circle cx="200" cy="200" r="72" fill="white" />
-                <text x="200" y="193" textAnchor="middle" className="centerTitle">
-                  {SECTIONS[active]}
-                </text>
-                <text x="200" y="214" textAnchor="middle" className="centerHint">
-                  click a slice
-                </text>
+                <text x="200" y="193" textAnchor="middle" className="centerTitle">{SECTIONS[active]}</text>
+                <text x="200" y="214" textAnchor="middle" className="centerHint">click a slice</text>
               </svg>
             </div>
           </section>
@@ -222,23 +201,8 @@ export default function Home() {
             linear-gradient(135deg, #f7fbff, #f8f5ff);
         }
 
-        .top {
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          padding:20px;
-        }
-        .brandRow { display:flex; align-items:center; gap:12px; }
-        .wordmark {
-          font-family:"Montagu Slab", serif;
-          font-weight:700;
-          letter-spacing:.06em;
-          font-size:26px;
-          background:linear-gradient(135deg,var(--brand-blue),var(--brand-purple) 50%,var(--brand-pink));
-          -webkit-background-clip:text;
-          background-clip:text;
-          color:transparent;
-        }
+        .top{ display:flex; justify-content:center; align-items:center; padding:20px; }
+        .brandRow{ display:flex; align-items:center; gap:12px; }
 
         .layout{ max-width:1200px; margin:0 auto; display:grid; grid-template-columns: 320px 1fr; gap:24px; padding: 12px 24px 64px; }
 
